@@ -135,9 +135,9 @@ jc = Join[QABosonRules[{a, c}], QAPauliRules[{sx, sy, sz}], QACommutingRules[{{a
 
 | Function | Description |
 |---|---|
-| `QAFockExpectation[expr, {a, c}, n]` | `⟨n| expr |n⟩` |
-| `QAFockMatrixElement[expr, {a, c}, m, n]` | `⟨m| expr |n⟩` |
-| `QACoherentExpectation[expr, {a, c}, α]` | `⟨α| expr |α⟩` |
+| `QAFockExpectation[expr, {a, c}, n]` | `⟨n\| expr \|n⟩` |
+| `QAFockMatrixElement[expr, {a, c}, m, n]` | `⟨m\| expr \|n⟩` |
+| `QACoherentExpectation[expr, {a, c}, α]` | `⟨α\| expr \|α⟩` |
 | `QAThermalExpectation[expr, {a, c}, nbar]` | Thermal state with mean occupation `nbar` |
 
 All of these accept multi-mode lists, e.g. `QAFockExpectation[expr, {{a1, c1}, {a2, c2}}, {n1, n2}]`.
@@ -159,7 +159,7 @@ All of these accept multi-mode lists, e.g. `QAFockExpectation[expr, {{a1, c1}, {
 | `QASymmetrize[expr, a, b]` | Average of the "all `a` first" and "all `b` first" orderings. |
 | `QAWeylOrder[expr, {a, b, …}]` | Average over all distinct orderings. |
 | `QACGTable[j1, j2, M]`, `QACGTables[j1, j2]` | Clebsch–Gordan tables. |
-| `QACoupledState[j1, j2, J, M]` | `|J M⟩` in the product basis. |
+| `QACoupledState[j1, j2, J, M]` | `\|J M⟩` in the product basis. |
 | `QASetDaggerFormat[{a, c}]` | Display `c` as `a†` (undo with `QAClearDaggerFormat`). |
 
 ## Options
