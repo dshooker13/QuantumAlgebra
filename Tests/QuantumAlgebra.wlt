@@ -3,7 +3,6 @@
 BeginTestSection["QuantumAlgebra"]
 
 VerificationTest[
-  PacletDirectoryLoad[DirectoryName[$TestFileName, 2]];
   Needs["QuantumAlgebra`"];
   (* single lowercase letters are noncommutative by default in NCAlgebra *)
   SetCommutative[t, m, n, r];
