@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+- Fixed failing `Matrix-spin-1-commutator` test caused by a minor issue in `iSpinLadder` where `Conjugate[\[HBar]]!=\[HBar]`.
+- Fixed minor issue in `iZeroQ`, which was causing `QAExpandDualExponential` to not truncate as expectd and fail its unit test.
+
 ## 1.0.0
 
 First public release.

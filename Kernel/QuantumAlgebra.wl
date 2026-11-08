@@ -6,7 +6,7 @@
 (*            normal ordering, ready-made algebras, commutators, Heisenberg       *)
 (*            picture, BCH, expectation values, matrix representations,           *)
 (*            ordering prescriptions and Clebsch-Gordan tools.                    *)
-(* :Package Version: 1.0.0                                                      *)
+(* :Package Version: 1.0.1                                                      *)
 (* :Mathematica Version: 12.1+                                                   *)
 (* :Requirements: NCAlgebra 5.0+ (https://github.com/NCAlgebra/NC)               *)
 (* :License: MIT                                                                 *)
@@ -321,7 +321,15 @@ $ContextPath = DeleteDuplicates[Join[$ContextPath, $ncContexts]];
 
 
 (* Zero test that survives scalar coefficients that only cancel after simplification. *)
-iZeroQ[x_] := x === 0 || TrueQ[Quiet[Simplify[x]] === 0];
+iZeroQ[x_] := Module[{parts},
+  If[x === 0, Return[True]];
+  parts = iSplitTerm /@ iTerms[NCExpand[x]];
+  If[MemberQ[parts, $Failed], Return[False]];
+  AllTrue[
+    Values @ Merge[(#[[2]] -> #[[1]]) & /@ parts, Total],
+    TrueQ[Quiet[Simplify[Expand[#]]] === 0] &
+  ]
+];
 
 (* Cheap zero test used inside loops. *)
 iNonzeroCoefQ[k_] := !(k === 0 || TrueQ[Expand[k] === 0]);
@@ -1022,10 +1030,10 @@ QABosonMatrices[modes_, nmax_] := Module[{m = iModes[modes], dims},
 ];
 
 (* Basis m = j, j-1, ..., -j.  J+|j m> = hbar Sqrt[j(j+1) - m(m+1)] |j m+1>. *)
-iSpinLadder[j_, h_] := Module[{d = 2 j + 1, ms = Range[j, -j, -1], jp},
-  jp = SparseArray[Table[{i - 1, i} -> h Sqrt[j (j + 1) - ms[[i]] (ms[[i]] + 1)], {i, 2, d}], {d, d}];
-  {jp, ConjugateTranspose[jp], SparseArray[h DiagonalMatrix[ms]]}
-];
+iSpinLadder[j_,h_]:=Module[{d=2 j+1,ms=Range[j,-j,-1],jp,jm},
+jp=SparseArray[Table[{i-1,i}->h Sqrt[j (j+1)-ms[[i]] (ms[[i]]+1)],{i,2,d}],{d,d}];
+jm=SparseArray[Table[{i+1,i}->h Sqrt[j (j+1)-ms[[i]] (ms[[i]]-1)],{i,1,d-1}],{d,d}];
+{jp,jm,SparseArray[h DiagonalMatrix[ms]]}];
 
 iSpinQ[j_] := NumericQ[j] && TrueQ[j >= 0] && IntegerQ[2 j];
 
